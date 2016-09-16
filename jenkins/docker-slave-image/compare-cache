@@ -1,0 +1,14 @@
+#!/bin/bash
+
+CACHE_PATH=$1
+if [ -z "$CACHE_PATH" ]; then
+  echo "Usage: $0 path_to_cache"
+  exit 1
+fi
+
+if [ ! -f cache_hashes.txt ]; then
+  echo "You don't have cache_hashes.txt yet."
+  exit 1
+fi
+
+hashdeep -k cache_hashes.txt -X -rl -c md5 $CACHE_PATH

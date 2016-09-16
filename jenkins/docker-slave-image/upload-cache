@@ -1,0 +1,23 @@
+#!/bin/bash
+
+CONTEXT=$1
+if [ -z "$CONTEXT" ]; then
+  echo "Usage: $0 build-context"
+  exit 1
+fi
+
+if [ -z "$GCE_CACHE_BUCKET" ]; then
+  echo "GCE cache bucket not set."
+  exit 1
+fi
+
+if [ ! -f ./build-cache.tar.gz ]; then
+  echo "./build-cache.tar.gz must exist."
+  exit 1
+fi
+
+echo "Uploading using build context ${CONTEXT}..."
+if ! gsutil cp ./build-cache.tar.gz gs://${GCE_CACHE_BUCKET}/${CONTEXT}.tar.gz ; then
+  echo "Upload failed."
+  exit 1
+fi

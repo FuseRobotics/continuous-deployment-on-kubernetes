@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ -z "$GCE_CREDS" ]; then
+  echo "No GCE creds defined."
+  exit 1
+fi
+
+if [ -z "$GCE_CREDS_EMAIL" ]; then
+  echo "No GCE creds email defined."
+  exit 1
+fi
+
+echo "$GCE_CREDS" | base64 -d > ~/.gce-creds.json
+gcloud auth activate-service-account $GCE_CREDS_EMAIL --key-file ~/.gce-creds.json
+rm ~/.gce-creds.json

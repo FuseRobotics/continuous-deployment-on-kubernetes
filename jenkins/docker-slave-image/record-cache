@@ -1,0 +1,9 @@
+#!/bin/bash
+
+CACHE_PATH=$1
+if [ -z "$CACHE_PATH" ]; then
+  echo "Usage: $0 path_to_cache"
+  exit 1
+fi
+
+hashdeep -rl -c md5 $CACHE_PATH > cache_hashes.txt
