@@ -5,6 +5,7 @@ USER root
 WORKDIR /root
 ENV HOME /root
 ENV JENKINS k8s
+ENV CHROMIUM_BIN /usr/bin/chromium
 
 ADD ./enable-npm-proxy \
     ./init-gce-creds \
