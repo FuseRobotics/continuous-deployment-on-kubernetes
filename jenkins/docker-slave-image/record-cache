@@ -6,4 +6,4 @@ if [ -z "$CACHE_PATH" ]; then
   exit 1
 fi
 
-hashdeep -rl -c md5 $CACHE_PATH > cache_hashes.txt
+hashdeep -l -r $CACHE_PATH > cache_hashes.txt

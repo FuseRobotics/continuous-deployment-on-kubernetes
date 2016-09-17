@@ -11,4 +11,4 @@ if [ ! -f cache_hashes.txt ]; then
   exit 1
 fi
 
-hashdeep -k cache_hashes.txt -X -rl -c md5 $CACHE_PATH
+hashdeep -v -a -k cache_hashes.txt -r -l $CACHE_PATH
