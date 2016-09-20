@@ -5,6 +5,7 @@ USER root
 WORKDIR /root
 
 ENV HOME /root
+ENV CI true
 ENV JENKINS k8s
 ENV CHROMIUM_BIN /usr/bin/chromium
 ENV GO_VERSION 1.7.1
@@ -24,7 +25,7 @@ RUN chmod +x /usr/bin/enable-npm-proxy \
     /usr/bin/record-cache
 
 RUN apt-get update && \
-    apt-get install -y xvfb chromium build-essential hashdeep bison && \
+    apt-get install -y xvfb chromium build-essential hashdeep bison pkg-config && \
     rm -rf /var/lib/apt/lists/*
 
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.7/install.sh | bash && \
@@ -43,6 +44,7 @@ RUN echo "set +x" >> ~/.bashrc && \
     gvm use go${GO_VERSION} --default && \
     gvm uninstall go1.4 && \
     mkdir -p ~/.gvm/pkgsets/go${GO_VERSION}/global/bin && \
+    mkdir -p ~/.gvm/pkgsets/go${GO_VERSION}/global/src && \
     curl https://glide.sh/get | sh" && \
     echo "set -x" >> ~/.bashrc
 
