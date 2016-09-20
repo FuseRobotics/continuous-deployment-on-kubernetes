@@ -33,14 +33,18 @@ RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.7/install.sh
     mv ~/.bashrc.backup ~/.bashrc && \
     echo 'export PATH="$PATH:$HOME/google-cloud-sdk/bin"' >> ~/.bashrc
 
-RUN curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | bash && \
+RUN echo "set +x" >> ~/.bashrc && \
+    curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | bash && \
     bash -c ". ~/.bashrc && \
     gvm install go1.4 && \
     gvm use go1.4 && \
     export GOROOT_BOOTSTRAP=$GOROOT && \
     gvm install go${GO_VERSION} && \
     gvm use go${GO_VERSION} --default && \
-    gvm uninstall go1.4"
+    gvm uninstall go1.4 && \
+    mkdir -p ~/.gvm/pkgsets/go${GO_VERSION}/global/bin && \
+    curl https://glide.sh/get | sh" && \
+    echo "set -x" >> ~/.bashrc
 
 ENTRYPOINT [ "jenkins-slave" ]
 CMD []
