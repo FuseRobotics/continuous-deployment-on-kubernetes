@@ -6,4 +6,7 @@ if [ -z "$CACHE_PATH" ]; then
   exit 1
 fi
 
+if ! [ "$(ls -A $CACHE_PATH)" ]; then
+  touch $CACHE_PATH/.keep_dir
+fi
 hashdeep -l -r $CACHE_PATH > cache_hashes.txt
