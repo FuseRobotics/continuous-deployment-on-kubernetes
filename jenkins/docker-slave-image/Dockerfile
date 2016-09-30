@@ -31,6 +31,7 @@ RUN chmod +x /usr/bin/enable-npm-proxy \
 
 RUN apt-get update && \
     apt-get install -y xvfb chromium build-essential \
+    libc6-i386 lib32stdc++6 lib32z1 \
     hashdeep bison pkg-config cpio rsync bc && \
     rm -rf /var/lib/apt/lists/*
 
