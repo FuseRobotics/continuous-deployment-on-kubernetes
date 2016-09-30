@@ -1,9 +1,15 @@
 #!/bin/bash
 
 CONTEXT=$1
+ARCHIVE=$2
+
 if [ -z "$CONTEXT" ]; then
-  echo "Usage: $0 build-context"
+  echo "Usage: $0 build-context [archive]"
   exit 1
+fi
+
+if [ -z "$ARCHIVE" ]; then
+  ARCHIVE=build-cache.tar.gz
 fi
 
 if [ -z "$GCE_CACHE_BUCKET" ]; then
@@ -12,7 +18,7 @@ if [ -z "$GCE_CACHE_BUCKET" ]; then
 fi
 
 echo "Downloading using build context ${CONTEXT}..."
-if ! gsutil cp gs://${GCE_CACHE_BUCKET}/${CONTEXT}.tar.gz ./build-cache.tar.gz; then
+if ! gsutil cp gs://${GCE_CACHE_BUCKET}/${CONTEXT}.tar.gz $ARCHIVE ; then
   echo "Download failed, probably doesn't exist."
   exit 1
 fi

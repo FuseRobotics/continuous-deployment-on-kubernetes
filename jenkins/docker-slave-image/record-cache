@@ -1,12 +1,19 @@
 #!/bin/bash
 
 CACHE_PATH=$1
+HASHES_PATH=$2
+
 if [ -z "$CACHE_PATH" ]; then
-  echo "Usage: $0 path_to_cache"
+  echo "Usage: $0 path_to_cache [cache_hashes_path]"
   exit 1
+fi
+
+if [ -z "$HASHES_PATH" ]; then
+  HASHES_PATH=cache_hashes.txt
 fi
 
 if ! [ "$(ls -A $CACHE_PATH)" ]; then
   touch $CACHE_PATH/.keep_dir
 fi
-hashdeep -l -r $CACHE_PATH > cache_hashes.txt
+
+hashdeep -l -r $CACHE_PATH > $HASHES_PATH

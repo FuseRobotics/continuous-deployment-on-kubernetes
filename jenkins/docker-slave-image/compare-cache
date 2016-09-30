@@ -1,14 +1,20 @@
 #!/bin/bash
 
 CACHE_PATH=$1
+HASHES_PATH=$2
+
 if [ -z "$CACHE_PATH" ]; then
-  echo "Usage: $0 path_to_cache"
+  echo "Usage: $0 path_to_cache [hashes_path]"
   exit 1
 fi
 
-if [ ! -f cache_hashes.txt ]; then
-  echo "You don't have cache_hashes.txt yet."
+if [ -z "$HASHES_PATH" ]; then
+  HASHES_PATH=cache_hashes.txt
+fi
+
+if [ ! -f $HASHES_PATH ]; then
+  echo "You don't have $HASHES_PATH yet."
   exit 1
 fi
 
-hashdeep -v -a -k cache_hashes.txt -r -l $CACHE_PATH
+hashdeep -v -a -k $HASHES_PATH -r -l $CACHE_PATH

@@ -1,9 +1,15 @@
 #!/bin/bash
 
 CONTEXT=$1
+ARCHIVE=$2
+
 if [ -z "$CONTEXT" ]; then
-  echo "Usage: $0 build-context"
+  echo "Usage: $0 build-context [archive]"
   exit 1
+fi
+
+if [ -z "$ARCHIVE" ]; then
+  ARCHIVE=build-cache.tar.gz
 fi
 
 if [ -z "$GCE_CACHE_BUCKET" ]; then
@@ -11,13 +17,13 @@ if [ -z "$GCE_CACHE_BUCKET" ]; then
   exit 1
 fi
 
-if [ ! -f ./build-cache.tar.gz ]; then
-  echo "./build-cache.tar.gz must exist."
+if [ ! -f $ARCHIVE ]; then
+  echo "$ARCHIVE must exist."
   exit 1
 fi
 
 echo "Uploading using build context ${CONTEXT}..."
-if ! gsutil cp ./build-cache.tar.gz gs://${GCE_CACHE_BUCKET}/${CONTEXT}.tar.gz ; then
+if ! gsutil cp $ARCHIVE gs://${GCE_CACHE_BUCKET}/${CONTEXT}.tar.gz ; then
   echo "Upload failed."
   exit 1
 fi

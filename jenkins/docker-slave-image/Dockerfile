@@ -30,7 +30,8 @@ RUN chmod +x /usr/bin/enable-npm-proxy \
     /usr/bin/record-cache
 
 RUN apt-get update && \
-    apt-get install -y xvfb chromium build-essential hashdeep bison pkg-config && \
+    apt-get install -y xvfb chromium build-essential \
+    hashdeep bison pkg-config cpio rsync bc && \
     rm -rf /var/lib/apt/lists/*
 
 RUN chown -R jenkins:jenkins /home/jenkins
