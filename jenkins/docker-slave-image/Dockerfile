@@ -17,7 +17,9 @@ ADD ./enable-npm-proxy \
     ./init-gce-creds \
     ./upload-cache \
     ./download-cache \
+    ./init-node-ci \
     ./record-cache \
+    ./init-jenkins-node-scripts \
     ./compare-cache \
     ./jenkins-slave \
     /usr/bin/
@@ -52,7 +54,8 @@ RUN cp ~/.bashrc ~/.bashrc.orig && \
     echo "set +x" >> ~/.bashrc && \
     echo "export NVM_DIR=\"$HOME/.nvm\"" >> ~/.bashrc && \
     echo ". \"\$NVM_DIR/nvm.sh\"" >> ~/.bashrc && \
-    echo 'export PATH="$PATH:$HOME/google-cloud-sdk/bin"' >> ~/.bashrc
+    echo 'export PATH="$PATH:$HOME/google-cloud-sdk/bin"' >> ~/.bashrc && \
+    pip install -U crcmod
 
 RUN curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | bash && \
     bash -c ". ~/.bashrc && . ~/.gvm/scripts/gvm && \
