@@ -49,6 +49,7 @@ ENV CHROMIUM_BIN /usr/bin/chromium
 ENV GO_VERSION 1.7.1
 ENV CLOUDSDK_CORE_DISABLE_PROMPTS 1
 
+RUN curl https://sdk.cloud.google.com | bash
 RUN cp ~/.bashrc ~/.bashrc.orig && \
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash && \
     echo "export NVM_DIR=\"$HOME/.nvm\"" >> ~/.bashrc && \
@@ -66,6 +67,3 @@ RUN curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscript
     mkdir -p ~/.gvm/pkgsets/go${GO_VERSION}/global/src && \
     curl https://glide.sh/get | sh" && \
     echo "set -x" >> ~/.bashrc
-
-RUN curl https://sdk.cloud.google.com | bash && mv google-cloud-sdk /opt && \
-    gcloud components install kubectl
