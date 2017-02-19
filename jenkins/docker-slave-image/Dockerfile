@@ -32,10 +32,11 @@ RUN chmod +x /usr/bin/enable-npm-proxy \
     /usr/bin/record-cache
 
 RUN apt-get update && \
-    apt-get install -y xvfb chromium build-essential \
+    apt-get install -y xvfb chromium build-essential jq python-pip \
     libc6-i386 lib32stdc++6 lib32z1 \
     hashdeep bison pkg-config cpio rsync bc && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    pip install -U crcmod
 
 RUN chown -R jenkins:jenkins /home/jenkins
 USER jenkins
@@ -46,16 +47,12 @@ ENV CI true
 ENV JENKINS k8s
 ENV CHROMIUM_BIN /usr/bin/chromium
 ENV GO_VERSION 1.7.1
+ENV CLOUDSDK_CORE_DISABLE_PROMPTS 1
 
 RUN cp ~/.bashrc ~/.bashrc.orig && \
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.7/install.sh | bash && \
-    curl https://sdk.cloud.google.com | bash && \
-    mv ~/.bashrc.orig ~/.bashrc && rm ~/.bashrc.backup || true && \
-    echo "set +x" >> ~/.bashrc && \
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash && \
     echo "export NVM_DIR=\"$HOME/.nvm\"" >> ~/.bashrc && \
-    echo ". \"\$NVM_DIR/nvm.sh\"" >> ~/.bashrc && \
-    echo 'export PATH="$PATH:$HOME/google-cloud-sdk/bin"' >> ~/.bashrc && \
-    pip install -U crcmod
+    echo ". \"\$NVM_DIR/nvm.sh\"" >> ~/.bashrc
 
 RUN curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | bash && \
     bash -c ". ~/.bashrc && . ~/.gvm/scripts/gvm && \
@@ -70,5 +67,5 @@ RUN curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscript
     curl https://glide.sh/get | sh" && \
     echo "set -x" >> ~/.bashrc
 
-ENTRYPOINT [ "jenkins-slave" ]
-CMD []
+RUN curl https://sdk.cloud.google.com | bash && mv google-cloud-sdk /opt && \
+    gcloud components install kubectl
