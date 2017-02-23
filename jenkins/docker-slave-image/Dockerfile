@@ -67,3 +67,6 @@ RUN curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscript
     mkdir -p ~/.gvm/pkgsets/go${GO_VERSION}/global/src && \
     curl https://glide.sh/get | sh" && \
     echo "set -x" >> ~/.bashrc
+
+ENTRYPOINT [ "jenkins-slave" ]
+CMD []
